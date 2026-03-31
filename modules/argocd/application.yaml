@@ -1,0 +1,64 @@
+server:
+  additionalApplications:
+   - name: application-dev
+     namespace: argocd
+     project: default
+     source:
+       repoURL: ${app_deployment_repo}
+       targetRevision: HEAD
+       path: prediction/dev
+       directory:
+         recurse: true
+     destination:
+       server: ${server_url}
+       namespace: dev
+     syncPolicy:
+      syncOptions:
+        - CreateNamespace=true
+        - PrunePropagationPolicy=foreground
+        - PruneLast=true
+      automated:
+        prune: true
+        selfHeal: true
+   - name: application-stage
+     namespace: argocd
+     project: default
+     source:
+       repoURL: ${app_deployment_repo}
+       targetRevision: HEAD
+       path: prediction/stage
+       directory:
+         recurse: true
+     destination:
+       server: ${server_url}
+       namespace: stage
+     syncPolicy:
+      syncOptions:
+        - CreateNamespace=true
+        - PrunePropagationPolicy=foreground
+        - PruneLast=true
+      automated:
+        prune: true
+        selfHeal: true
+
+   - name: application-prod
+     namespace: argocd
+     project: default
+     source:
+       repoURL: ${app_deployment_repo}
+       targetRevision: HEAD
+       path: prediction/prod
+       directory:
+         recurse: true
+     destination:
+       server: ${server_url}
+       namespace: prod
+     syncPolicy:
+      syncOptions:
+        - CreateNamespace=true
+        - PrunePropagationPolicy=foreground
+        - PruneLast=true
+      automated:
+        prune: true
+        selfHeal: true
+
